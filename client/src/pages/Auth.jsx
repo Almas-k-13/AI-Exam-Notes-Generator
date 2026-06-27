@@ -1,7 +1,31 @@
 import React from 'react'
 import { motion } from 'motion/react'
 import { FcGoogle } from "react-icons/fc"
+import { auth, provider } from '../utils/firebase';
+import { signInWithPopup } from 'firebase/auth';
+import axios from 'axios';
+import { serverUrl } from '../App';
 function Auth() {
+
+  const handleGoogleAuth = async () => {
+    try {
+      const response = await signInWithPopup(auth, provider);
+      const User = response.user;
+      const name = User.displayName;
+      const email = User.email;
+      const result = await axios.post(
+        serverUrl + "/api/auth/google",
+        {
+          name,
+          email,
+        },
+        { withCredentials: true },
+      );
+      // dispatch(setUserData(result.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className='min-h-screen overflow-hidden bg-white text-black px-8'>
       <motion.header
@@ -34,11 +58,13 @@ function Auth() {
             }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 200, damping: 18 }}
-            className='mt-10 px-10 py-3 rounded-xl flex items-center gap-3 bg-gradient-to-br from-black/90 via-black/80 to-black/90 border border-white/10 text-white font-semibold text-lg shadow-[0_25px_60px_rgba(0,0,0,0.7)]'>
+            className='mt-10 px-10 py-3 rounded-xl flex items-center gap-3 bg-linear-to-br from-black/90 via-black/80 to-black/90 border border-white/10 text-white font-semibold text-lg shadow-[0_25px_60px_rgba(0,0,0,0.7)]'
+            onClick={handleGoogleAuth}
+            >
             <FcGoogle size={22} /> Continue With Google
           </motion.button>
 
-          <p className='mt-6 max-w-xl text-lg bg-gradient-to-br from-gray-700 via-gray-500/80 to-gray-700 bg-clip-text text-transparent'>
+          <p className='mt-6 max-w-xl text-lg bg-linear-to-br from-gray-700 via-gray-500/80 to-gray-700 bg-clip-text text-transparent'>
             You get <span className='font-semibold'>50 FREE credits</span> to create exam notes, project notes, charts, graphs and download clean PDFs - instantly using AI.
           </p>
 
