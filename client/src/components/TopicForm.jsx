@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { easeOut, motion } from "motion/react";
-// import { generateNotes } from "../services/api";
+import { generateNotes } from "../services/api";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-// import { updateCredits } from "../redux/userSlice";
+import { updateCredits } from "../redux/userSlice";
 
 function TopicForm({ setResult, setLoading, loading, setError }) {
   const [topic, setTopic] = useState("");
