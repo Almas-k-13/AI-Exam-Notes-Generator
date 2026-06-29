@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors"
 import userRouter from "./routes/user.route.js";
 import notesRouter from "./routes/generate.route.js";
+import pdfRouter from "./routes/pdf.route.js";
 dotenv.config()
 
 const app = express();
@@ -30,6 +31,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/notes", notesRouter);
+app.use("/api/pdf", pdfRouter);
 
 app.listen(PORT, ()=>{
     console.log(`server running on port ${PORT}`);

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ReactMarkdown from "react-markdown"
 import MermaidSetup from './MermaidSetup';
 import RechartSetup from './RechartSetup';
+import { downloadPdf } from '../services/api';
 
 const markDownComponent = {
     h1: ({ children }) => (
