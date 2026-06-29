@@ -47,6 +47,7 @@ function MermaidSetup({ diagram }) {
 
         const uniqueId = `mermaid-${Math.random().toString(36).substring(2, 9)}`;
 
+        // senitize before render
         const safeChart = autoFixNodes(cleanMermaidChart(diagram));
 
         const { svg } = await mermaid.render(uniqueId, safeChart);
