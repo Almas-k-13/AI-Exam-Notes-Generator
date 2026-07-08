@@ -15,6 +15,7 @@ function PaymentSuccess() {
     return () => clearTimeout(t);
   }, []);
   return (
+    // Paymentsuccess page
     <div className="min-h-screen flex flex-col items-center justify-center p-6 gap-6 bg-gradient-to-br from-gray-900 via-black to-gray-900 text-center">
       {/* Animated success icon */}
       <motion.div
