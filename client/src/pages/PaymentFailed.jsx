@@ -18,6 +18,7 @@ function PaymentFailed() {
   }, []);
 
   return (
+    // Paymentfailed page
     <div className="min-h-screen flex flex-col items-center justify-center p-6 gap-6 bg-gradient-to-br from-gray-900 via-black to-gray-900 text-center relative">
       {/* Animated error icon */}
       <motion.div
