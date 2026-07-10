@@ -32,8 +32,13 @@ function Navbar() {
       initial={{ opacity: 0, y: -15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1.2 }}
-      className="relative z-20 mx-6 mt-6 rounded-2xl bg-gradient-to-br from-gray-900 via-black to-gray-900 backdrop-blur-2xl border border-white/10 shadow-[0_22px_55px_rgba(0,0,0,0.75)] flex items-center justify-between px-8 py-4"
+      className="fixed top-0 left-0 right-0 z-50 mx-6 mt-6 
+             rounded-2xl bg-gradient-to-br from-gray-900 via-black to-gray-900 
+             backdrop-blur-2xl border border-white/10 
+             shadow-[0_22px_55px_rgba(0,0,0,0.75)] 
+             flex items-center justify-between px-8 py-4"
     >
+
       {/* Logo */}
       <div className="flex items-center gap-3 cursor-pointer">
         <img src={logo} alt="examnotes" className="w-9 h-9" />
@@ -142,11 +147,10 @@ function MenuItem({ onClick, text, red }) {
   return (
     <div
       onClick={onClick}
-      className={`w-full text-left px-5 py-3 text-sm transition-colors rounded-xl cursor-pointer ${
-        red
+      className={`w-full text-left px-5 py-3 text-sm transition-colors rounded-xl cursor-pointer ${red
           ? "text-red-400 hover:bg-red-500/10"
           : "text-gray-200 hover:bg-indigo-500/10"
-      }`}
+        }`}
     >
       {text}
     </div>
