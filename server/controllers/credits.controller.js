@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// RozarPay Setup
 
 const CREDIT_MAP = {
   100: 50,
