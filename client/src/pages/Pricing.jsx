@@ -4,6 +4,19 @@ import { motion } from "motion/react";
 import axios from 'axios';
 import { serverUrl } from '../App';
 
+const loadRazorpay = () => {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+
+    script.onload = () => resolve(true);
+
+    script.onerror = () => resolve(false);
+
+    document.body.appendChild(script);
+  });
+};
+
 function Pricing() {
   const navigate = useNavigate();
   const [selectedPrice, setSelectedPrice] = useState(null);
@@ -14,21 +27,87 @@ function Pricing() {
     try {
       setPayingAmount(amount);
       setPaying(true);
-      const result = await axios.post(
+
+      const loaded = await loadRazorpay();
+
+      if (!loaded) {
+        alert("Failed to load Razorpay SDK");
+        setPaying(false);
+        return;
+      }
+
+      const { data } = await axios.post(
         serverUrl + "/api/credit/order",
         { amount },
-        { withCredentials: true },
+        { withCredentials: true }
       );
-      if (result.data.url) {
-        window.location.href = result.data.url;
-      }
+
+      const options = {
+        key: data.key,
+        amount: data.order.amount,
+        currency: data.order.currency,
+        name: "AI Notes Generator",
+        description: "Purchase Credits",
+        order_id: data.order.id,
+
+        handler: async function (response) {
+          try {
+            const verify = await axios.post(
+              serverUrl + "/api/credit/verify",
+              {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                amount,
+              },
+              {
+                withCredentials: true,
+              }
+            );
+
+            if (verify.data.success) {
+              navigate("/payment-success");
+            } else {
+              navigate("/payment-failed");
+            }
+          } catch (error) {
+            console.error(error);
+            navigate("/payment-failed");
+          }
+        },
+
+        modal: {
+          ondismiss: function () {
+            navigate("/payment-failed");
+          },
+          escape: true,
+          backdropclose: false,
+          animation: true,
+        },
+
+        prefill: {},
+
+        theme: {
+          color: "#6366F1",
+        },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+
+      paymentObject.on("payment.failed", function (response) {
+        console.log("Payment Failed:", response);
+
+        navigate("/payment-failed");
+      });
+
+      paymentObject.open();
+
       setPaying(false);
     } catch (error) {
-      setPaying(false);
       console.log(error);
+      setPaying(false);
     }
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 px-6 py-10 relative text-white">
       <button
@@ -142,10 +221,10 @@ function PricingCard({
       onClick={() => setSelectedPrice(amount)}
       whileHover={{ y: -6, scale: 1.02 }}
       className={`relative cursor-pointer rounded-2xl p-6 transition-all shadow-lg border ${isSelected
-          ? "border-indigo-400 bg-gradient-to-br from-indigo-900/40 via-black/60 to-indigo-900/40"
-          : popular
-            ? "border-indigo-500 bg-gradient-to-br from-gray-800 via-black to-gray-800"
-            : "border-gray-700 bg-gradient-to-br from-gray-800 via-black to-gray-800"
+        ? "border-indigo-400 bg-gradient-to-br from-indigo-900/40 via-black/60 to-indigo-900/40"
+        : popular
+          ? "border-indigo-500 bg-gradient-to-br from-gray-800 via-black to-gray-800"
+          : "border-gray-700 bg-gradient-to-br from-gray-800 via-black to-gray-800"
         }`}
     >
       {popular && !isSelected && (
@@ -174,13 +253,13 @@ function PricingCard({
           onBuy(amount);
         }}
         className={`w-full mt-6 py-2 rounded-xl font-semibold transition-all shadow-md ${isPayingThisCard
-            ? "bg-gray-600 cursor-not-allowed text-gray-300"
-            : isSelected
-              ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:opacity-90"
-              : "bg-gradient-to-r from-gray-700 to-gray-900 text-white hover:from-indigo-600 hover:to-purple-600"
+          ? "bg-gray-600 cursor-not-allowed text-gray-300"
+          : isSelected
+            ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:opacity-90"
+            : "bg-gradient-to-r from-gray-700 to-gray-900 text-white hover:from-indigo-600 hover:to-purple-600"
           }`}
       >
-        {isPayingThisCard ? "Redirecting..." : "Buy Now"}
+        {isPayingThisCard ? "Processing..." : "Buy Now"}
       </button>
 
       <ul className="mt-6 space-y-2 text-sm text-gray-300">
