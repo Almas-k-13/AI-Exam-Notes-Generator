@@ -125,7 +125,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
           onChange={() => setIncludeChart(!includeChart)}
         />
       </div>
-      <motion.button
+      {/* <motion.button
         onClick={handleSubmit}
         whileHover={!loading ? { scale: 1.02 } : {}}
         whileTap={!loading ? { scale: 0.95 } : {}}
@@ -133,6 +133,24 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
         className={`w-full mt-4 py-3 rounded-xl font-semibold cursor-pointer flex items-center justify-center gap-3 transition ${loading ? "bg-gray-300 text-gray-600 cursor-not-allowed" : "bg-linear-to-br from-white to-gray-200 text-black shadow-[0_15px_35px_rgba(0,0,0,0.4)]"}`}
       >
         {loading ? "Generating Notes..." : "Generate Notes"}
+      </motion.button> */}
+      <motion.button
+        onClick={handleSubmit}
+        whileHover={!loading ? { y: -1 } : {}}
+        whileTap={!loading ? { scale: 0.98 } : {}}
+        disabled={loading}
+        className={`w-full mt-4 h-14 rounded-xl font-medium transition-all ${loading
+            ? "bg-gray-700 text-gray-300 cursor-not-allowed"
+            : "bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg"
+          }`}
+      >
+        <div className="flex items-center justify-center gap-2">
+          <span>{loading ? "🤖" : "✨"}</span>
+
+          <span>
+            {loading ? "Generating Notes..." : "Generate AI Notes"}
+          </span>
+        </div>
       </motion.button>
 
       {loading && (
