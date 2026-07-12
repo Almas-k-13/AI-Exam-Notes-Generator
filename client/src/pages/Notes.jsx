@@ -51,7 +51,7 @@ function Notes() {
                         className="px-4 py-3 rounded-full text-sm font-medium bg-white/10 border border-white/20 text-white hover:bg-white/20 transition flex items-center gap-2 cursor-pointer"
                         onClick={() => navigate("/history")}
                     >
-                        📚 Your Notes
+                        📚 Notes History
                     </button>
                 </div>
             </motion.header>
