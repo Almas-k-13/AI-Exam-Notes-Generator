@@ -1,13 +1,13 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import axios from 'axios';
-import { serverUrl } from './../App';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
+import { serverUrl } from "./../App";
 import { AnimatePresence, motion } from "motion/react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import FinalResult from '../components/FinalResult';
+import FinalResult from "../components/FinalResult";
 
 function History() {
   const navigate = useNavigate();
@@ -15,10 +15,17 @@ function History() {
   const credits = userData.credits;
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [topics, setTopics] = useState([]);
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
   const [activeNoteId, setActiveNoteId] = useState(null);
 
   const [selectedNote, setSelectedNote] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const filteredTopics = topics.filter((note) => {
+    return note.topic.toLowerCase().includes(search.toLowerCase());
+  });
+
   useEffect(() => {
     const myNotes = async () => {
       try {
@@ -121,6 +128,15 @@ function History() {
                   ➕ New Notes
                 </button>
                 <hr className="border-white/10 mb-4" />
+                <div className="mb-4">
+                  <input
+                    type="text"
+                    placeholder="🔍 Search notes..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-gray-400 outline-none focus:border-indigo-500"
+                  />
+                </div>
                 <h2 className="mb-4 text-lg font-bold bg-linear-to-r from-white via-gray-300 to-white bg-clip-text text-transparent">
                   📚 Your Notes
                 </h2>
@@ -130,7 +146,7 @@ function History() {
                 )}
 
                 <ul className="space-y-3">
-                  {topics.map((t, i) => (
+                  {filteredTopics.map((t, i) => (
                     <li
                       key={i}
                       onClick={() => {
@@ -185,7 +201,7 @@ function History() {
         </motion.div>
       </div>
     </div>
-  )
+  );
 }
 
-export default History
+export default History;
