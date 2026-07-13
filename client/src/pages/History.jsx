@@ -23,7 +23,19 @@ function History() {
   const [loading, setLoading] = useState(false);
 
   const filteredTopics = topics.filter((note) => {
-    return note.topic.toLowerCase().includes(search.toLowerCase());
+    const matchSearch = note.topic.toLowerCase().includes(search.toLowerCase());
+
+    let matchFilter = true;
+    if (filter === "revision") {
+      matchFilter = note.revisionMode;
+    }
+    if (filter === "diagram") {
+      matchFilter = note.includeDiagram;
+    }
+    if (filter === "chart") {
+      matchFilter = note.includeChart;
+    }
+    return matchSearch && matchFilter;
   });
 
   useEffect(() => {
@@ -136,6 +148,28 @@ function History() {
                     onChange={(e) => setSearch(e.target.value)}
                     className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-gray-400 outline-none focus:border-indigo-500"
                   />
+
+                  {/* Filter */}
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {[
+                      { key: "all", label: "All" },
+                      { key: "revision", label: "⚡ Revision" },
+                      { key: "diagram", label: "📊 Diagram" },
+                      { key: "chart", label: "📈 Chart" },
+                    ].map((item) => (
+                      <button
+                        key={item.key}
+                        onClick={() => setFilter(item.key)}
+                        className={`px-3 py-2 rounded-full text-sm transition ${
+                          filter === item.key
+                            ? "bg-indigo-600 text-white"
+                            : "bg-white/5 text-gray-300 hover:bg-white/10"
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
                 <h2 className="mb-4 text-lg font-bold bg-linear-to-r from-white via-gray-300 to-white bg-clip-text text-transparent">
                   📚 Your Notes
