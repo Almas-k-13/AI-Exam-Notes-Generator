@@ -8,6 +8,7 @@ import { serverUrl } from "./../App";
 import { AnimatePresence, motion } from "motion/react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import FinalResult from "../components/FinalResult";
+import { Heart, Trash2 } from "lucide-react";
 
 function History() {
   const navigate = useNavigate();
@@ -65,6 +66,26 @@ function History() {
     } catch (error) {
       console.log(error);
       setLoading(false);
+    }
+  };
+
+  const toggleFavorite = async (noteId) => {
+    try {
+      const res = await axios.patch(
+        serverUrl + `/api/notes/favorite/${noteId}`,
+        {},
+        {
+          withCredentials: true,
+        },
+      );
+
+      setTopics((prev) =>
+        prev.map((note) =>
+          note._id === noteId ? { ...note, favorite: res.data.favorite } : note,
+        ),
+      );
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -186,11 +207,47 @@ function History() {
                       onClick={() => {
                         openNotes(t._id);
                       }}
-                      className={`cursor-pointer rounded-xl p-3 border transition-all ${activeNoteId === t._id ? "bg-indigo-500/30 border-indigo-400 shadow-[0_0_0_1px_rgba(99,102,241,0.6)]" : "bg-white/5 border-white/10 hover:bg-white/10"}`}
+                      className={`group cursor-pointer rounded-2xl border p-4 transition-all duration-300 ${
+                        activeNoteId === t._id
+                          ? "border-indigo-500 bg-indigo-500/10 shadow-lg shadow-indigo-500/20"
+                          : "border-white/10 bg-white/5 hover:-translate-y-1 hover:border-indigo-400/40 hover:bg-white/10 hover:shadow-lg"
+                      }`}
                     >
-                      <p className="text-sm font-semibold text-white">
-                        {t.topic}
-                      </p>
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="text-sm font-semibold text-white line-clamp-2">
+                          {t.topic}
+                        </p>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleFavorite(t._id);
+                            }}
+                            className={`rounded-lg p-1.5 transition-all ${
+                              t.favorite
+                                ? "bg-red-500/15 text-red-400"
+                                : "text-gray-400 hover:bg-white/10 hover:text-red-400"
+                            }`}
+                            title="Favorite"
+                          >
+                            <Heart
+                              size={16}
+                              fill={t.favorite ? "currentColor" : "none"}
+                            />
+                          </button>
+
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                            className="rounded-lg p-1.5 text-gray-400 transition-all hover:bg-red-500/10 hover:text-red-400"
+                            title="Delete Note"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
                       <div className="flex flex-wrap gap-2 mt-2 text-xs">
                         {t.classLevel && (
                           <span className="px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300">
