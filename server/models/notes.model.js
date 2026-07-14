@@ -19,6 +19,10 @@ const notesSchema = new mongoose.Schema(
     },
     includeDiagram: Boolean,
     includeChart: Boolean,
+    favorite: {
+      type: Boolean,
+      default: false,
+    },
     content: {
       type: mongoose.Schema.Types.Mixed, // AI response (string/JSON)
       required: true,
