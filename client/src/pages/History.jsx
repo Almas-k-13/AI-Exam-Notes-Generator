@@ -22,6 +22,8 @@ function History() {
 
   const [selectedNote, setSelectedNote] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteNoteId, setDeleteNoteId] = useState(null);
 
   const filteredTopics = topics.filter((note) => {
     const matchSearch = note.topic.toLowerCase().includes(search.toLowerCase());
@@ -84,6 +86,26 @@ function History() {
           note._id === noteId ? { ...note, favorite: res.data.favorite } : note,
         ),
       );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteNote = async () => {
+    try {
+      await axios.delete(serverUrl + `/api/notes/${deleteNoteId}`, {
+        withCredentials: true,
+      });
+
+      setTopics((prev) => prev.filter((note) => note._id !== deleteNoteId));
+
+      if (activeNoteId === deleteNoteId) {
+        setSelectedNote(null);
+        setActiveNoteId(null);
+      }
+
+      setDeleteModal(false);
+      setDeleteNoteId(null);
     } catch (error) {
       console.log(error);
     }
@@ -240,6 +262,8 @@ function History() {
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
+                              setDeleteNoteId(t._id);
+                              setDeleteModal(true);
                             }}
                             className="rounded-lg p-1.5 text-gray-400 transition-all hover:bg-red-500/10 hover:text-red-400"
                             title="Delete Note"
@@ -291,6 +315,48 @@ function History() {
           {!loading && selectedNote && <FinalResult result={selectedNote} />}
         </motion.div>
       </div>
+      {deleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            className="w-[420px] rounded-3xl bg-white p-8 shadow-2xl"
+          >
+            <div className="flex justify-center mb-4">
+              <div className="h-16 w-16 rounded-full bg-red-100 flex items-center justify-center text-3xl">
+                🗑️
+              </div>
+            </div>
+
+            <h2 className="text-2xl font-bold text-center">Delete Note</h2>
+
+            <p className="text-center text-gray-500 mt-3">
+              Are you sure you want to delete this note?
+            </p>
+
+            <p className="text-center text-sm text-red-500 mt-2">
+              This action cannot be undone.
+            </p>
+
+            <div className="flex gap-3 mt-8">
+              <button
+                onClick={() => setDeleteModal(false)}
+                className="flex-1 rounded-xl border py-3 font-medium hover:bg-gray-100"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={deleteNote}
+                className="flex-1 rounded-xl bg-red-500 py-3 font-medium text-white hover:bg-red-600"
+              >
+                Delete
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
