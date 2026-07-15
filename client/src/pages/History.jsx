@@ -8,7 +8,8 @@ import { serverUrl } from "./../App";
 import { AnimatePresence, motion } from "motion/react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import FinalResult from "../components/FinalResult";
-import { Heart, Trash2 } from "lucide-react";
+import { Heart, Trash2, TriangleAlert } from "lucide-react";
+import { toast } from "sonner";
 
 function History() {
   const navigate = useNavigate();
@@ -86,6 +87,12 @@ function History() {
           note._id === noteId ? { ...note, favorite: res.data.favorite } : note,
         ),
       );
+
+      if (res.data.favorite) {
+        toast.success("Added to Favorites ❤️");
+      } else {
+        toast.info("Removed from Favorites");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -93,9 +100,16 @@ function History() {
 
   const deleteNote = async () => {
     try {
-      await axios.delete(serverUrl + `/api/notes/${deleteNoteId}`, {
-        withCredentials: true,
-      });
+      await toast.promise(
+        axios.delete(serverUrl + `/api/notes/${deleteNoteId}`, {
+          withCredentials: true,
+        }),
+        {
+          loading: "Deleting note...",
+          success: "Note deleted successfully 🗑",
+          error: "Failed to delete note",
+        },
+      );
 
       setTopics((prev) => prev.filter((note) => note._id !== deleteNoteId));
 
@@ -316,16 +330,20 @@ function History() {
         </motion.div>
       </div>
       {deleteModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-md">
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="w-[420px] rounded-3xl bg-white p-8 shadow-2xl"
+            className="relative z-[10000] w-[420px] rounded-3xl bg-white p-8 shadow-2xl"
           >
             <div className="flex justify-center mb-4">
-              <div className="h-16 w-16 rounded-full bg-red-100 flex items-center justify-center text-3xl">
-                🗑️
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+                <TriangleAlert
+                  size={34}
+                  className="text-red-600"
+                  strokeWidth={2.5}
+                />
               </div>
             </div>
 
@@ -342,16 +360,17 @@ function History() {
             <div className="flex gap-3 mt-8">
               <button
                 onClick={() => setDeleteModal(false)}
-                className="flex-1 rounded-xl border py-3 font-medium hover:bg-gray-100"
+                className="flex-1 rounded-xl border border-gray-300 py-3 font-semibold transition hover:bg-gray-100"
               >
                 Cancel
               </button>
 
               <button
                 onClick={deleteNote}
-                className="flex-1 rounded-xl bg-red-500 py-3 font-medium text-white hover:bg-red-600"
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-red-600 py-3 font-semibold text-white transition hover:bg-red-700"
               >
-                Delete
+                <Trash2 size={18} />
+                Delete Note
               </button>
             </div>
           </motion.div>
