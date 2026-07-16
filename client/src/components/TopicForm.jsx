@@ -132,7 +132,29 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
         disabled={loading}
         className={`w-full mt-4 py-3 rounded-xl font-semibold cursor-pointer flex items-center justify-center gap-3 transition ${loading ? "bg-gray-300 text-gray-600 cursor-not-allowed" : "bg-linear-to-br from-white to-gray-200 text-black shadow-[0_15px_35px_rgba(0,0,0,0.4)]"}`}
       >
-        {loading ? "Generating Notes..." : "Generate Notes"}
+        {/* {loading ? "Generating Notes..." : "Generate Notes"} */}
+        <div className="flex items-center justify-center gap-3">
+          {loading ? (
+            <>
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{
+                  duration: 1,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+                className="h-5 w-5 rounded-full border-2 border-gray-500 border-t-transparent"
+              />
+
+              <span>Generating AI Notes...</span>
+            </>
+          ) : (
+            <>
+              <span>✨</span>
+              <span>Generate AI Notes</span>
+            </>
+          )}
+        </div>
       </motion.button>
 
       {loading && (
