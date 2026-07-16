@@ -24,6 +24,7 @@ export const generateNotes = async (payload) => {
     console.log(result.data);
     return result.data;
   } catch (error) {
+    throw error;
     console.log(error);
   }
 };
