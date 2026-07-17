@@ -1,4 +1,3 @@
-
 import { getToken } from '../utils/token.js';
 import User from './../models/user.model.js';
 

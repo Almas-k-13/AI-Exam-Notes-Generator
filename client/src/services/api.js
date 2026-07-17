@@ -2,13 +2,12 @@ import axios from "axios";
 import { serverUrl } from "../App";
 import { setUserData } from "../redux/userSlice";
 
-
 export const getCurrentUser = async (dispatch) => {
   try {
     const result = await axios.get(serverUrl + "/api/user/currentuser", {
       withCredentials: true,
     });
-    dispatch(setUserData(result.data))
+    dispatch(setUserData(result.data));
   } catch (error) {
     console.log(error);
   }
@@ -44,7 +43,6 @@ export const downloadPdf = async (result) => {
     link.href = url;
     link.download = "ExamNotesAI.pdf";
     link.click();
-
     window.URL.revokeObjectURL(url);
   } catch (error) {
     throw new Error("PDF download failed");
