@@ -8,6 +8,7 @@ import userRouter from "./routes/user.route.js";
 import notesRouter from "./routes/generate.route.js";
 import pdfRouter from "./routes/pdf.route.js";
 import creditRouter from "./routes/credit.route.js";
+import quizRouter from "./routes/quiz.route.js";
 dotenv.config()
 
 const app = express();
@@ -35,6 +36,7 @@ app.use("/api/user", userRouter);
 app.use("/api/notes", notesRouter);
 app.use("/api/pdf", pdfRouter);
 app.use("/api/credit", creditRouter);
+app.use("/api/quiz", quizRouter);
 
 
 app.listen(PORT, () => {
