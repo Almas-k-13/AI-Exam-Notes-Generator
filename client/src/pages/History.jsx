@@ -304,6 +304,17 @@ function History() {
                         {t.includeDiagram && <span>📊 Diagram</span>}
                         {t.includeChart && <span>📈 Chart</span>}
                       </div>
+                      <div className="mt-4">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/quiz/${t._id}`);
+                          }}
+                          className="w-full rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 py-2.5 text-sm font-semibold text-white transition hover:scale-[1.02] hover:shadow-lg"
+                        >
+                          🧠 Start AI Quiz
+                        </button>
+                      </div>
                     </li>
                   ))}
                 </ul>

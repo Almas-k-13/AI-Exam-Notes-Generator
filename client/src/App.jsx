@@ -10,6 +10,8 @@ import Pricing from "./pages/Pricing";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailed from "./pages/PaymentFailed";
 import { Toaster } from "sonner";
+import Quiz from "./pages/Quiz";
+import QuizResult from "./pages/QuizResult";
 export const serverUrl = "http://localhost:8000";
 
 function App() {
@@ -49,6 +51,14 @@ function App() {
         <Route
           path="/pricing"
           element={userData ? <Pricing /> : <Navigate to="/auth" replace />}
+        />
+        <Route
+          path="/quiz/:noteId"
+          element={userData ? <Quiz /> : <Navigate to="/auth" replace />}
+        />
+        <Route
+          path="/quiz-result/:quizId"
+          element={userData ? <QuizResult /> : <Navigate to="/auth" replace />}
         />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/payment-failed" element={<PaymentFailed />} />
