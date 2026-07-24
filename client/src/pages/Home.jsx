@@ -1,10 +1,10 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
-import { motion } from 'motion/react';
+import React from "react";
+import Navbar from "../components/Navbar";
+import { motion } from "motion/react";
 import img from "../assets/image.png";
 // import img from "../assets/img1.png";
-import { useNavigate } from 'react-router-dom';
-import Footer from '../components/Footer';
+import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 
 function Home() {
   const navigate = useNavigate();
@@ -41,8 +41,9 @@ function Home() {
                   textShadow: "0 18px 40px rgba(0,0,0,0.25)",
                 }}
               >
-                Generate exam-focused notes, project documentation, flow diagrams
-                and revision-ready content using AI - faster, cleaner and smarter.
+                Generate exam-focused notes, project documentation, flow
+                diagrams and revision-ready content using AI - faster, cleaner
+                and smarter.
               </motion.p>
             </motion.div>
             <motion.button
@@ -105,8 +106,7 @@ function Home() {
       </main>
       <Footer />
     </div>
-
-  )
+  );
 }
 
 function Feature({ icon, title, des }) {
@@ -131,4 +131,4 @@ function Feature({ icon, title, des }) {
   );
 }
 
-export default Home
+export default Home;

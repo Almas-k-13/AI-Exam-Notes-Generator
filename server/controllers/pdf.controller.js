@@ -1,83 +1,80 @@
-import PDFDocument from "pdfkit"
+import PDFDocument from "pdfkit";
 
 export const pdfDownload = async (req, res) => {
+  const { result } = req.body;
 
-    const { result } = req.body;
+  if (!result) {
+    return res.status(400).json({ error: "No Content Provided" });
+  }
 
-    if (!result) {
-        return res.status(400).json({ error: "No Content Provided" });
-    }
+  const doc = new PDFDocument({ margin: 50 });
 
-    const doc = new PDFDocument({ margin: 50 })
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader(
+    "Content-Disposition",
+    'attachment; filename="ExamNotesAi.pdf"',
+  );
 
-    res.setHeader("Content-Type", "application/pdf")
-    res.setHeader(
-        "Content-Disposition",
-        'attachment; filename="ExamNotesAi.pdf"',
-    );
+  doc.pipe(res);
 
-    doc.pipe(res);
+  // title
+  doc.fontSize(20).text("ExamNotes AI", { align: "center" });
+  doc.moveDown();
+  doc.fontSize(14).text(`Importance:${result.importance}`);
+  doc.moveDown();
 
-    // title
-    doc.fontSize(20).text("ExamNotes AI", { align: "center" });
-    doc.moveDown();
-    doc.fontSize(14).text(`Importance:${result.importance}`);
-    doc.moveDown();
+  // sub topics
 
-    // sub topics
-
-    doc.fontSize(16).text("Sub Topics");
+  doc.fontSize(16).text("Sub Topics");
+  doc.moveDown(0.5);
+  Object.entries(result.subTopics).forEach(([star, topics]) => {
     doc.moveDown(0.5);
-    Object.entries(result.subTopics).forEach(([star, topics]) => {
-        doc.moveDown(0.5);
-        doc.fontSize(13).text(`${star} Topics:`);
+    doc.fontSize(13).text(`${star} Topics:`);
 
-        topics.forEach((t) => {
-            doc.fontSize(12).text(`• ${t}`);
-        });
+    topics.forEach((t) => {
+      doc.fontSize(12).text(`• ${t}`);
     });
+  });
 
-    doc.moveDown();
+  doc.moveDown();
 
-    // notes
-    doc.fontSize(16).text("Notes");
-    doc.moveDown(0.5);
-    doc.fontSize(12).text(result.notes.replace(/[#*]/g, ""));
+  // notes
+  doc.fontSize(16).text("Notes");
+  doc.moveDown(0.5);
+  doc.fontSize(12).text(result.notes.replace(/[#*]/g, ""));
 
-    doc.moveDown();
+  doc.moveDown();
 
-    // revison points
+  // revison points
 
-    doc.fontSize(16).text("Revision Points");
-    doc.moveDown(0.5);
-    result.revisionPoints.forEach((p) => {
-        doc.fontSize(12).text(`• ${p}`);
-    });
+  doc.fontSize(16).text("Revision Points");
+  doc.moveDown(0.5);
+  result.revisionPoints.forEach((p) => {
+    doc.fontSize(12).text(`• ${p}`);
+  });
 
-    doc.moveDown();
+  doc.moveDown();
 
-    // questions
-    doc.fontSize(16).text("Important Questions");
-    doc.moveDown(0.5);
+  // questions
+  doc.fontSize(16).text("Important Questions");
+  doc.moveDown(0.5);
 
-    doc.fontSize(13).text("Short Questions");
-    result.questions.short.forEach((q) => {
-        doc.fontSize(12).text(`• ${q}`);
-    });
+  doc.fontSize(13).text("Short Questions");
+  result.questions.short.forEach((q) => {
+    doc.fontSize(12).text(`• ${q}`);
+  });
 
-    doc.moveDown(0.5);
+  doc.moveDown(0.5);
 
-    doc.fontSize(13).text("Long Questions");
-    result.questions.long.forEach((q) => {
-        doc.fontSize(12).text(`• ${q}`);
-    });
+  doc.fontSize(13).text("Long Questions");
+  result.questions.long.forEach((q) => {
+    doc.fontSize(12).text(`• ${q}`);
+  });
 
-    doc.moveDown(0.5);
+  doc.moveDown(0.5);
 
-    doc.fontSize(13).text("Diagram Questions");
-    doc.fontSize(12).text(result.questions.diagram);
+  doc.fontSize(13).text("Diagram Questions");
+  doc.fontSize(12).text(result.questions.diagram);
 
-    doc.end();
-
-
-}
+  doc.end();
+};

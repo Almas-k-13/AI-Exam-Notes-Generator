@@ -1,15 +1,15 @@
-import express from "express"
-import dotenv from "dotenv"
+import express from "express";
+import dotenv from "dotenv";
 import connectDb from "./utils/connectDb.js";
 import authRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
-import cors from "cors"
+import cors from "cors";
 import userRouter from "./routes/user.route.js";
 import notesRouter from "./routes/generate.route.js";
 import pdfRouter from "./routes/pdf.route.js";
 import creditRouter from "./routes/credit.route.js";
 import quizRouter from "./routes/quiz.route.js";
-dotenv.config()
+dotenv.config();
 
 const app = express();
 
@@ -21,12 +21,11 @@ app.use(
   }),
 );
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
-  res.json({ message: "Backend Running" })
-})
-
+  res.json({ message: "Backend Running" });
+});
 
 app.use(express.json());
 app.use(cookieParser());
@@ -38,8 +37,7 @@ app.use("/api/pdf", pdfRouter);
 app.use("/api/credit", creditRouter);
 app.use("/api/quiz", quizRouter);
 
-
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);
   connectDb();
-})
+});

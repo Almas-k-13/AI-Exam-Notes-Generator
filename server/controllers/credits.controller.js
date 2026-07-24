@@ -114,7 +114,7 @@ export const verifyPayment = async (req, res) => {
       },
       {
         new: true,
-      }
+      },
     );
 
     return res.status(200).json({
