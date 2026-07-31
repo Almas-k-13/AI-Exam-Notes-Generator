@@ -86,7 +86,6 @@ function Footer() {
               <FaLinkedin className="text-gray-400 hover:text-blue-500 transition-colors cursor-pointer" />
             </a>
           </div>
-
         </motion.div>
 
         {/* Quick Links */}
