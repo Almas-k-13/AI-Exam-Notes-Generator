@@ -714,35 +714,6 @@ The following features are planned for future releases:
 
 ---
 
-# 🤝 Contributing
-
-Contributions, feature suggestions, and improvements are always welcome.
-
-If you would like to contribute:
-
-1. Fork the repository
-2. Create a feature branch
-
-```bash
-git checkout -b feature/your-feature-name
-```
-
-3. Commit your changes
-
-```bash
-git commit -m "Add amazing feature"
-```
-
-4. Push the branch
-
-```bash
-git push origin feature/your-feature-name
-```
-
-5. Open a Pull Request
-
----
-
 # 👨‍💻 About the Developer
 
 ### Almas Kureshi
@@ -766,10 +737,9 @@ Passionate Full Stack Developer focused on building scalable web applications an
 
 > Replace these links with your own.
 
-- 💼 LinkedIn : https://linkedin.com/in/your-profile
-- 🌐 Portfolio : https://your-portfolio.com
-- 📧 Email : your-email@example.com
-- 💻 GitHub : https://github.com/your-username
+- 💼 LinkedIn : https://linkedin.com/in/almaskureshi
+- 📧 Email : almaskureshi099@gmail.com
+- 💻 GitHub : https://github.com/Almas-k-13
 
 ---
 
@@ -783,7 +753,7 @@ It motivates me to continue building useful open-source projects.
 
 ---
 
-# 🙏 Acknowledgements
+# Acknowledgements
 
 Special thanks to the amazing technologies and communities that made this project possible.
 
