@@ -735,8 +735,6 @@ Passionate Full Stack Developer focused on building scalable web applications an
 
 # 📬 Connect With Me
 
-> Replace these links with your own.
-
 - 💼 LinkedIn : https://linkedin.com/in/almaskureshi
 - 📧 Email : almaskureshi099@gmail.com
 - 💻 GitHub : https://github.com/Almas-k-13
