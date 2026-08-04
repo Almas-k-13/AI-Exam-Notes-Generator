@@ -81,27 +81,58 @@ function Home() {
           </motion.div>
         </section>
         {/* bottom */}
-        <section className="max-w-6xl mx-auto px-8 py-32 grid grid-cols-1 md:grid-cols-4 gap-10">
-          <Feature
-            icon="📘"
-            title="Exam Notes"
-            des="High-yield exam-oriented notes with revision points."
-          />
-          <Feature
-            icon="📂"
-            title="Project Notes"
-            des=" Well structured content for assignment and projects"
-          />
-          <Feature
-            icon="📊"
-            title="Diagrams"
-            des="Auto- generated visual diagrams for clarity"
-          />
-          <Feature
-            icon="⬇️"
-            title="PDF Download"
-            des="Download clean, printable PDFs instantly"
-          />
+        {/* Features */}
+
+        <section className="relative max-w-7xl mx-auto px-8 py-32">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-center mb-20"
+          >
+            <span className="inline-flex items-center rounded-full border border-cyan-500/20 bg-cyan-500/10 px-5 py-2 text-sm font-medium text-cyan-600">
+              🚀 Why Choose ExamNotes AI?
+            </span>
+
+            <h2 className="mt-6 text-5xl font-black">
+              Everything You Need to{" "}
+              <span className="bg-gradient-to-r from-cyan-600 to-blue-700 bg-clip-text text-transparent">
+                Ace Your Exams
+              </span>
+            </h2>
+
+            <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-gray-600">
+              Generate smart AI notes, create quizzes, visualize concepts,
+              download PDFs and prepare for exams faster than ever.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+            <Feature
+              icon="📘"
+              title="Exam Notes"
+              des="Generate exam-focused notes with revision points and structured formatting."
+            />
+
+            <Feature
+              icon="🧠"
+              title="AI Quiz"
+              des="Convert every note into an AI-generated quiz with instant performance analysis."
+            />
+
+            <Feature
+              icon="📊"
+              title="Charts & Diagrams"
+              des="Visualize complex concepts using AI-generated charts and diagrams."
+            />
+
+            <Feature
+              icon="📄"
+              title="PDF Export"
+              des="Download beautifully formatted PDFs for offline study and printing."
+            />
+          </div>
         </section>
       </main>
       <Footer />
@@ -113,19 +144,51 @@ function Feature({ icon, title, des }) {
   return (
     <motion.div
       whileHover={{
-        y: -12,
-        rotateX: 8,
-        rotateY: -8,
-        scale: 1.05,
+        y: -10,
+        scale: 1.03,
       }}
-      transition={{ type: "spring", stiffness: 200, damping: 18 }}
-      className="relative rounded-2xl p-6 bg-linear-to-br from-black/90 via-black/80 to-black/90 backdrop-blur-2xl border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.7)] text-white"
-      style={{ transformStyle: "preserve-3d" }}
+      transition={{
+        type: "spring",
+        stiffness: 220,
+        damping: 18,
+      }}
+      className="group relative overflow-hidden rounded-3xl border border-cyan-500/10 bg-white p-7 shadow-xl"
     >
-      <div className="relative z-10" style={{ transform: "translateZ(30px)" }}>
-        <div className="text-4xl mb-3">{icon}</div>
-        <h3 className="text-lg font-semibold mb-2">{title}</h3>
-        <p className="text-gray-300 text-sm leading-relaxed">{des}</p>
+      {/* Background Glow */}
+
+      <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-cyan-500/10 blur-3xl transition-all duration-500 group-hover:scale-150" />
+
+      {/* Top Badge */}
+
+      <div className="inline-flex items-center rounded-full bg-cyan-50 px-3 py-1 text-xs font-semibold text-cyan-700">
+        AI Powered
+      </div>
+
+      {/* Icon */}
+
+      <div className="mt-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 text-3xl shadow-lg">
+        {icon}
+      </div>
+
+      {/* Title */}
+
+      <h3 className="mt-6 text-2xl font-bold text-gray-900">{title}</h3>
+
+      {/* Description */}
+
+      <p className="mt-4 leading-7 text-gray-600">{des}</p>
+
+      {/* Footer */}
+
+      <div className="mt-8 flex items-center justify-between">
+        <span className="font-semibold text-cyan-600">Explore</span>
+
+        <motion.div
+          whileHover={{ x: 5 }}
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-50 text-cyan-600"
+        >
+          →
+        </motion.div>
       </div>
     </motion.div>
   );
