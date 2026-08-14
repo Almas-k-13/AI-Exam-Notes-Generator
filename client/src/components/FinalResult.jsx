@@ -35,7 +35,53 @@ function FinalResult({ result }) {
 
   const handleCopyNotes = async () => {
     try {
-      await navigator.clipboard.writeText(result.notes);
+      const subTopicsText = Object.entries(result.subTopics || {})
+        .map(([star, topics]) => {
+          return `${star} Priority\n${topics
+            .map((topic) => `- ${topic}`)
+            .join("\n")}`;
+        })
+        .join("\n\n");
+
+      const shortQuestions = (result.questions?.short || [])
+        .map((q, i) => `${i + 1}. ${q}`)
+        .join("\n");
+
+      const longQuestions = (result.questions?.long || [])
+        .map((q, i) => `${i + 1}. ${q}`)
+        .join("\n");
+
+      const fullNotes = `
+${result.topic ? `# ${result.topic}\n` : "# Generated Notes"}
+
+## ⭐ Sub Topics
+
+${subTopicsText}
+
+## 📝 Detailed Notes
+
+${result.notes || ""}
+
+## ⚡ Quick Revision Points
+
+${(result.revisionPoints || []).map((point) => `- ${point}`).join("\n")}
+
+## ❓ Important Questions
+
+### Short Questions
+
+${shortQuestions}
+
+### Long Questions
+
+${longQuestions}
+
+### Diagram Question
+
+${result.questions?.diagram || "N/A"}
+`.trim();
+
+      await navigator.clipboard.writeText(fullNotes);
 
       setCopied(true);
 
