@@ -68,7 +68,7 @@ function Notes() {
 
               <span
               onClick={() => navigate("/history")}
-              className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white">
+              className="cursor-pointer px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white">
                 📚 History
               </span>
             </div>
@@ -82,7 +82,7 @@ function Notes() {
               className="group flex items-center justify-between gap-5 rounded-2xl bg-white/5 border border-white/10 px-5 py-4 hover:bg-cyan-500/10 transition-all"
             >
               <div>
-                <p className="text-slate-400 text-sm">Available Credits</p>
+                <p className="text-slate-400 text-sm cursor-pointer">Available Credits</p>
 
                 <h2 className="text-3xl font-bold text-white">{credits}</h2>
               </div>
