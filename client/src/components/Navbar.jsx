@@ -3,7 +3,7 @@ import logo from "../assets/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { AnimatePresence, motion } from "motion/react";
 import { setUserData } from "../redux/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { serverUrl } from "../App";
 import axios from "axios";
 
@@ -38,14 +38,17 @@ function Navbar() {
              shadow-[0_22px_55px_rgba(0,0,0,0.75)] 
              flex items-center justify-between px-8 py-4"
     >
-
       {/* Logo */}
-      <div className="flex items-center gap-3 cursor-pointer">
-        <img src={logo} alt="examnotes" className="w-9 h-9" />
+      <Link
+        to="/"
+        className="flex items-center gap-3 cursor-pointer select-none"
+      >
+        <img src={logo} alt="ExamNotes AI" className="w-9 h-9" />
+
         <span className="text-lg hidden md:block font-semibold bg-gradient-to-r from-indigo-400 via-pink-400 to-yellow-400 bg-clip-text text-transparent">
           ExamNotes <span className="text-gray-400">AI</span>
         </span>
-      </div>
+      </Link>
 
       {/* Right Section */}
       <div className="flex items-center gap-6 relative">
@@ -147,10 +150,11 @@ function MenuItem({ onClick, text, red }) {
   return (
     <div
       onClick={onClick}
-      className={`w-full text-left px-5 py-3 text-sm transition-colors rounded-xl cursor-pointer ${red
+      className={`w-full text-left px-5 py-3 text-sm transition-colors rounded-xl cursor-pointer ${
+        red
           ? "text-red-400 hover:bg-red-500/10"
           : "text-gray-200 hover:bg-indigo-500/10"
-        }`}
+      }`}
     >
       {text}
     </div>
